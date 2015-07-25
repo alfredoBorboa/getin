@@ -43,11 +43,25 @@ var app = {
 
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
+        
 
-        console.log('Received Event: ' + id);
-
+        //console.log('Received Event: ' + id);
+        if ( device.platform == 'android' ){
         var pushNotification = window.plugins.pushNotification; // para push notifications Android 22 julio 2015
-        pushNotification.register(this.successHandler, this.errorHandler,{"senderID":"394041467798","ecb":"app.onNotificationGCM"});// para push notifications Android 22 julio 2015
+        pushNotification.register(app.successHandler, app.errorHandler,{"senderID":"394041467798","ecb":"app.onNotificationGCM"});// para push notifications Android 22 julio 2015
+        }
+        
+        if ( device.platform == 'iOS' ){
+            var pushNotification = window.plugins.pushNotification; // para push notifications IOS 25 julio 2015
+            pushNotification.register(app.tokenHandler,
+                                      app.errorHandler,
+                                      {
+                                      "badge":"true",
+                                      "sound":"true",
+                                      "alert":"true",
+                                      "ecb":"app.onNotificationAPN"
+                                      });// para push notifications IOS 25 julio 2015
+        }
     },
 
     successHandler: function(result) {// para push notifications Android 22 julio 2015
@@ -82,6 +96,31 @@ var app = {
               alert('An unknown GCM event has occurred');
               break;
         }
+    },
+    
+    onNotificationAPN: function(event) {// para push notifications IOS 25 julio 2015
+        if ( event.alert )
+        {
+            navigator.notification.alert(event.alert);
+        }
+        
+        if ( event.sound )
+        {
+            var snd = new Media(event.sound);
+            snd.play();
+        }
+        
+        if ( event.badge )
+        {
+            pushNotification.setApplicationIconBadgeNumber(successHandler, errorHandler, event.badge);
+        }
+    },
+tokenHandler: function(result) {
+        // Your iOS push server needs to know the token before it can push to this device
+        // here is where you might want to send it the token for later use.
+        console.log( "holifack" );
+        alert('device token = ' + result);
+        console.log('device token = ' + result);
     }
 
 };

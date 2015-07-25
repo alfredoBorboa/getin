@@ -15,6 +15,10 @@
                         {
                             "xml": "<feature name=\"PushPlugin\"><param name=\"android-package\" value=\"com.plugin.gcm.PushPlugin\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -74,6 +78,12 @@
             "PACKAGE_NAME": "com.iyary.getin"
         },
         "com.phonegap.plugins.PushPlugin": {
+            "PACKAGE_NAME": "com.iyary.getin"
+        },
+        "org.apache.cordova.device": {
+            "PACKAGE_NAME": "com.iyary.getin"
+        },
+        "cordova-plugin-console": {
             "PACKAGE_NAME": "com.iyary.getin"
         }
     },
